@@ -26,27 +26,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip numpy
           
-      - name: Test f2pt
+      - name: Test f2py
         run: |
           python -c "import sys; print('python:', sys.version)"
           python -c "import numpy; print('numpy:', numpy.__version__)"
           python -m numpy.f2py -v
           bbdir=my-bbdir
-          python -m numpy.f2py --verbose -c fib1.f -m fib1 || {
-            python -c "import tempfile; print('tempfile.mkdtemp:', tempfile.mkdtemp())"
-            echo "=============="
-            dt=`python -c "import tempfile; print(tempfile.mkdtemp())"`
-            t=`dirname "$dt"`
-            ls -laR "$t"
-            echo "=============="
-            ls -laR $bbdir || true
-            echo "=============="
-            find "$t" -name '*log.txt' -print
-            echo "=============="
-            find "$t" -name '*log.txt' -exec cat {} \;
-            echo "=============="
-            exit 2
-          }
+          python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || true 
+          echo "=============="
+          ls -laR $bbdir || true
+          echo "=============="
           python -c 'if 1:
             import fib1
             import numpy as np
