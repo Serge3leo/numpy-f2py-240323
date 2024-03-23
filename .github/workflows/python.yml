@@ -25,7 +25,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip numpy
-          
+      - name: f2py workaround
+        run: |
+          ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
+          mbt=`dirname $ff`/_backends/meson.build.template
+          mv "$mbt" "$mbt".orig
+          sed -e "/import('python').find_installation(/s/'\${python}', //" -i -- "$mbt"
+          diff -u "$mbt".orig "$mbt"
       - name: Test f2py
         run: |
           python -c "import sys; print('python:', sys.version)"
