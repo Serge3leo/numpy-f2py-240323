@@ -32,18 +32,18 @@ jobs:
           python -c "import numpy; print('numpy:', numpy.__version__)"
           python -m numpy.f2py -v
           bbdir=my-bbdir
-          python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || {
+          python -m numpy.f2py --verbose -c fib1.f -m fib1 || {
             python -c "import tempfile; print('tempfile.mkdtemp:', tempfile.mkdtemp())"
             echo "=============="
             dt=`python -c "import tempfile; print(tempfile.mkdtemp())"`
             t=`dirname "$dt"`
             ls -laR "$t"
             echo "=============="
-            ls -laR $bbdir
+            ls -laR $bbdir || true
             echo "=============="
-            find $bbdir -name '*log.txt' -print
+            find "$t" -name '*log.txt' -print
             echo "=============="
-            find $bbdir -name '*log.txt' -exec cat {} \;
+            find "$t" -name '*log.txt' -exec cat {} \;
             echo "=============="
             exit 2
           }
