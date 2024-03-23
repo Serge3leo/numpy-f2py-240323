@@ -35,7 +35,7 @@ jobs:
           python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || {
             python -c "import tempfile; print('tempfile.mkdtemp:', tempfile.mkdtemp())"
             echo "=============="
-            dt=`python -c "import tempfile; print('tempfile.mkdtemp:', tempfile.mkdtemp())"`
+            dt=`python -c "import tempfile; print(tempfile.mkdtemp())"`
             t=`dirname "$dt"`
             ls -laR "$t"
             echo "=============="
