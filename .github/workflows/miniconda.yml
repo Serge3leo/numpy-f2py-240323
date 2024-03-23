@@ -18,9 +18,12 @@ jobs:
     steps:
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: ${{ matrix.python-version }}
-          activate-environment: tf2py
-          environment-file: environment.yml
+          activate-environment: anaconda-client-env
+          environment-file: etc/example-environment.yml
+          auto-activate-base: false
+          # python-version: ${{ matrix.python-version }}
+          # activate-environment: tf2py
+          # environment-file: environment.yml
       - name: Test f2py
         run: |
           python -c "import sys; print('python:', sys.version)"
