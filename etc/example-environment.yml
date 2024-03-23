@@ -1,8 +1,0 @@
-name: anaconda-client-env
-channels:
-  - conda-forge
-  - defaults
-dependencies:
-  - numpy
-  - meson
-  - cmake
