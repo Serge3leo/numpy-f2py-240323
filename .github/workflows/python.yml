@@ -30,6 +30,7 @@ jobs:
           ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
           mbt=`dirname $ff`/_backends/meson.build.template
           mv "$mbt" "$mbt".orig
+          cp "$mbt".orig "$mbt"
           sed -e "/import('python').find_installation(/s/'\${python}', //" -i -- "$mbt"
           diff -u "$mbt".orig "$mbt"
       - name: Test f2py
