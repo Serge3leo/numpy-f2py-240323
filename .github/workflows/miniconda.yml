@@ -22,7 +22,18 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           environment-file: environment.yml
-          # activate-environment: tf2py
+      # - name: f2py workaround
+      #   run: |
+      #     python -c "import sys; print('python:', sys.version)"
+      #     python -c "import numpy; print('numpy:', numpy.__version__)"
+      #     python -m numpy.f2py -v
+
+      #     ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
+      #     mbt=`dirname $ff`/_backends/meson.build.template
+      #     mv "$mbt" "$mbt".orig
+      #     cp "$mbt".orig "$mbt"
+      #     sed -e "/import('python').find_installation(/s/'\${python}', //" -i -- "$mbt"
+      #     diff -w -u "$mbt".orig "$mbt" || true
       - name: Test f2py
         run: |
           python -c "import sys; print('python:', sys.version)"
