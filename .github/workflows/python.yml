@@ -24,7 +24,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip numpy meson
+          python -m pip install --upgrade pip numpy meson ninja
       - name: f2py workaround
         run: |
           python -c "import sys; print('python:', sys.version)"
