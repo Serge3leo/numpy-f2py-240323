@@ -48,10 +48,6 @@ jobs:
           echo 'ninja:'
           ninja --version
 
-          ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
-          mbt=`dirname $ff`/_backends/meson.build.template
-          diff -w -u "$mbt".orig "$mbt" || true
-          
           bbdir=my-bbdir
           python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || true 
           echo "=============="
