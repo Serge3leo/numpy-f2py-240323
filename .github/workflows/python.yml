@@ -54,6 +54,8 @@ jobs:
           python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || true 
           echo "=============="
           ls -laR $bbdir || true
+          echo "============== $bbdir/bbdir/meson-logs/meson-log.txt ===="
+          cat $bbdir/bbdir/meson-logs/meson-log.txt || true
           echo "=============="
           python -c 'if 1:
             import fib1
