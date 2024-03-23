@@ -1,3 +1,7 @@
+name: Miniconda package
+
+on: [push]
+
 jobs:
   f2py-test:
     name: f2py-test (${{ matrix.python-version }}, ${{ matrix.os }})
