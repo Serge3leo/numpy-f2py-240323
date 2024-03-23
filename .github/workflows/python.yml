@@ -32,13 +32,16 @@ jobs:
           python -c "import numpy; print('numpy:', numpy.__version__)"
           python -m numpy.f2py -v
           python -m numpy.f2py --verbose -c fib1.f -m fib1 || {
-            env
             echo "=============="
-            echo "TEMP=$TEMP TMP=$TMP"
+            ls -la . || true
             echo "=============="
-            find $TEMP $TMP -name '*log.txt' -print
+            ls -la $TMPDIR || true
             echo "=============="
-            find $TEMP $TMP -name '*log.txt' -exec cat {} \;
+            ls -la $HOME || true
+            echo "=============="
+            find . $TMPDIR $HOME -name '*log.txt' -print
+            echo "=============="
+            find . $TMPDIR $HOME -name '*log.txt' -exec cat {} \;
             echo "=============="
             exit 2
           }
