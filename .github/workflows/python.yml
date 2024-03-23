@@ -21,18 +21,25 @@ jobs:
           # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
       # You can test your matrix by printing the current Python version
+      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip numpy
-      - name: Display Python version
+          
+      - name: Test f2pt
         run: |
-          python -c "import sys; print(sys.version)"
-          python -c "import numpy; print(numpy.__version__)"
+          python -c "import sys; print('python:', sys.version)"
+          python -c "import numpy; print('numpy:', numpy.__version__)"
           python -m numpy.f2py -v
           python -m numpy.f2py --verbose -c fib1.f -m fib1 || {
+            env
+            echo "=============="
             echo "TEMP=$TEMP TMP=$TMP"
-            find $TEMP $TMP -name '*log.txt'
-            find $TEMP $TMP -name '*log.txt' --exec cat {} \;
+            echo "=============="
+            find $TEMP $TMP -name '*log.txt' -print
+            echo "=============="
+            find $TEMP $TMP -name '*log.txt' -exec cat {} \;
+            echo "=============="
             exit 2
           }
           python -c 'if 1:
