@@ -4,6 +4,10 @@ on: [push]
 
 jobs:
   f2py-test:
+    defaults:
+      run:
+        shell: bash -el {0}
+
     name: f2py-test (${{ matrix.python-version }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -15,9 +19,27 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Conda info
-        shell: bash -el {0}
-        run: conda info
-      - name: Conda list
-        shell: pwsh
-        run: conda list
+          environment-file: environment.yml
+            - name: Test f2py
+        run: |
+          python -c "import sys; print('python:', sys.version)"
+          python -c "import numpy; print('numpy:', numpy.__version__)"
+          echo 'f2py:'
+          python -m numpy.f2py -v
+          echo 'meson:'
+          meson -v
+           
+          bbdir=my-bbdir
+          python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || true 
+          echo "=============="
+          ls -laR $bbdir || true
+          echo "============== $bbdir/bbdir/meson-logs/meson-log.txt ===="
+          cat $bbdir/bbdir/meson-logs/meson-log.txt || true
+          echo "=============="
+          python -c 'if 1:
+            import fib1
+            import numpy as np
+            a=np.zeros(8,"d")
+            fib1.fib(a)
+            print(a)
+            '
