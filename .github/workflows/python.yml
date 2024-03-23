@@ -27,6 +27,10 @@ jobs:
           python -m pip install --upgrade pip numpy
       - name: f2py workaround
         run: |
+          python -c "import sys; print('python:', sys.version)"
+          python -c "import numpy; print('numpy:', numpy.__version__)"
+          python -m numpy.f2py -v
+
           ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
           mbt=`dirname $ff`/_backends/meson.build.template
           mv "$mbt" "$mbt".orig
@@ -38,8 +42,15 @@ jobs:
           python -c "import sys; print('python:', sys.version)"
           python -c "import numpy; print('numpy:', numpy.__version__)"
           python -m numpy.f2py -v
+
+          ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
+          mbt=`dirname $ff`/_backends/meson.build.template
+          diff -w -u "$mbt".orig "$mbt" || true
+          
           bbdir=my-bbdir
           python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || true 
+          echo "=============="
+          find / -name meson-log.txt -print
           echo "=============="
           ls -laR $bbdir || true
           echo "=============="
