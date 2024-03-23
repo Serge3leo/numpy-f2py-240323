@@ -29,7 +29,12 @@ jobs:
           python -c "import sys; print(sys.version)"
           python -c "import numpy; print(numpy.__version__)"
           python -m numpy.f2py -v
-          python -m numpy.f2py --verbose -c fib1.f -m fib1
+          python -m numpy.f2py --verbose -c fib1.f -m fib1 || {
+            echo "TEMP=$TEMP TMP=$TMP"
+            find $TEMP $TMP -name '*log.txt'
+            find $TEMP $TMP -name '*log.txt' --exec cat {} \;
+            exit 2
+          }
           python -c 'if 1:
             import fib1
             import numpy as np
