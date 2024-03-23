@@ -50,7 +50,7 @@ jobs:
           bbdir=my-bbdir
           python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || true 
           echo "=============="
-          find / -name meson-log.txt -print
+          find c:\\ -name meson-log.txt -print
           echo "=============="
           ls -laR $bbdir || true
           echo "=============="
