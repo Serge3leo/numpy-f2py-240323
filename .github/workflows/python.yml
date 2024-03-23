@@ -45,6 +45,8 @@ jobs:
           python -m numpy.f2py -v
           echo 'meson:'
           meson -v
+          echo 'ninja:'
+          ninja --version
 
           ff=`python -c "import numpy.f2py; print(numpy.f2py.__file__)"`
           mbt=`dirname $ff`/_backends/meson.build.template
