@@ -31,17 +31,14 @@ jobs:
           python -c "import sys; print('python:', sys.version)"
           python -c "import numpy; print('numpy:', numpy.__version__)"
           python -m numpy.f2py -v
-          python -m numpy.f2py --verbose -c fib1.f -m fib1 || {
+          bbdir=my-bbdir
+          python -m numpy.f2py --verbose -c fib1.f -m fib1 --build-dir $bbdir || {
             echo "=============="
-            ls -la . || true
+            ls -laR $bbdir
             echo "=============="
-            ls -la $TMPDIR || true
+            find $bbdir -name '*log.txt' -print
             echo "=============="
-            ls -la $HOME || true
-            echo "=============="
-            find . $TMPDIR $HOME -name '*log.txt' -print
-            echo "=============="
-            find . $TMPDIR $HOME -name '*log.txt' -exec cat {} \;
+            find $bbdir -name '*log.txt' -exec cat {} \;
             echo "=============="
             exit 2
           }
